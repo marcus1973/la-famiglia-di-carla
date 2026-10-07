@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7c3aed">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="La Famiglia di Carla">
+<link rel="manifest" href="manifest.json">
+<title>La Famiglia di Carla</title>
+<style>
+:root{--p:#7c3aed;--pl:#f3e8ff;--bg:#fff8fc;--ink:#392c45;--muted:#806f89;--line:#eadff0}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f5f3ff,#fff7ed,#fff1f2);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+button,input,select{font:inherit}.app{max-width:980px;margin:auto;padding:12px}.top,.panel{background:#fff;border:1px solid var(--line);border-radius:24px;padding:15px;box-shadow:0 8px 24px #4c31500e}.top h1{text-align:center;color:var(--p);margin:0;font-size:29px}.tag{text-align:center;color:var(--muted);font-weight:700;margin:3px 0 12px}
+nav{display:flex;gap:7px;overflow:auto}.tab{border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 13px;font-weight:900;white-space:nowrap}.tab.active{background:var(--p);color:white}
+.panel{margin-top:11px}.hidden{display:none}h2{margin:2px 0 12px;color:#6931a7}h3{margin-bottom:7px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{border:1px solid var(--line);border-radius:18px;padding:12px;background:#fff}.field label{font-weight:900;display:block;margin-bottom:5px}.field input,.field select{width:100%;min-height:44px;border:1px solid #d9cbe1;border-radius:11px;padding:9px 10px;background:#fff}
+.preview{background:linear-gradient(135deg,#faf5ff,#fff1f2);border-radius:20px;text-align:center;padding:13px;margin-bottom:12px}.avatar{font-size:72px;line-height:1}.face{font-size:27px}.clothes{font-size:32px}.pname{font-size:21px;font-weight:950;color:#6b21a8}.btn{min-height:44px;border:0;border-radius:14px;padding:10px 14px;background:var(--p);color:#fff;font-weight:900;margin:8px 6px 0 0}.btn.alt{background:var(--pl);color:#6b21a8}.btn.red{background:#fee2e2;color:#b91c1c}.hint{font-size:13px;color:var(--muted)}
+.people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}.member{border:1px solid var(--line);border-radius:17px;padding:10px;text-align:center}.member .big{font-size:45px}.member button{min-height:38px;border:1px solid var(--line);background:#faf7ff;border-radius:10px;padding:5px 9px;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#faf7ff;border-radius:15px;padding:10px;text-align:center;font-weight:900}.stat b{display:block;font-size:21px;color:#6b21a8}
+.house{background:#dbeafe;border-radius:22px;padding:11px}.rooms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.room{min-height:160px;border:3px solid #bfdbfe;background:#fffdf3;border-radius:17px;padding:10px}.room.sel{outline:4px solid #8b5cf6}.furn{display:flex;flex-wrap:wrap;gap:7px;font-size:30px;margin-top:16px}.shop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.item{border:1px solid var(--line);border-radius:15px;padding:9px;text-align:center}.emoji{font-size:34px}.item button{font-size:14px;padding:7px}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.action{text-align:left;min-height:100px}.action .emoji{float:right}
+.task{padding:11px;border-radius:14px;background:#f5f3ff;margin-top:8px;font-weight:850}.mission.done{background:#dcfce7;color:#166534}.bar{height:12px;background:#eee5f3;border-radius:99px;overflow:hidden}.bar>i{display:block;height:100%;background:#8b5cf6}
+.story{background:linear-gradient(135deg,#fff7ed,#faf5ff);border-radius:20px;padding:14px}.story p{margin:7px 0}.choice{width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:7px;font-weight:800}
+.inventory{display:flex;flex-wrap:wrap;gap:7px}.pill{background:#f3e8ff;border-radius:99px;padding:8px 11px;font-weight:800}
+@media(max-width:650px){.grid,.actions{grid-template-columns:1fr}.people{grid-template-columns:repeat(2,minmax(0,1fr))}.shop{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top">
+<h1>🏡 La Famiglia di Carla</h1>
+<div class="tag">Un piccolo mondo tutto da creare, arredare e vivere 💜</div>
+<nav>
+<button class="tab active" data-page="home">🏠 Mondo</button>
+<button class="tab" data-page="family">👨‍👩‍👧 Famiglia</button>
+<button class="tab" data-page="house">🛋️ Casa</button>
+<button class="tab" data-page="life">🌳 Vita</button>
+<button class="tab" data-page="story">📖 Storia</button>
+<button class="tab" data-page="missions">⭐ Missioni</button>
+</nav>
+</header>
+
+<section id="home" class="panel">
+<h2>🌟 Il tuo mondo</h2>
+<div class="stats">
+<div class="stat">👨‍👩‍👧<b id="sFamily">0</b>familiari</div>
+<div class="stat">🪙<b id="sCoins">120</b>monete</div>
+<div class="stat">⭐<b id="sPoints">0</b>punti</div>
+<div class="stat">❤️<b id="sLove">50</b>affetto</div>
+</div>
+<div class="story" style="margin-top:12px">
+<h3>💌 Benvenuta, Carla!</h3>
+<p id="welcome">Costruisci la tua famiglia e crea una casa speciale.</p>
+<p class="hint">I progressi vengono salvati automaticamente su questo dispositivo.</p>
+</div>
+<h3>🎒 Inventario</h3><div id="inventory" class="inventory"></div>
+</section>
+
+<section id="family" class="panel hidden">
+<h2>👨‍👩‍👧 Crea i tuoi personaggi</h2>
+<div class="preview"><div id="avatar" class="avatar">👧</div><div id="face" class="face">💙</div><div id="clothesPreview" class="clothes">👕</div><div id="previewName" class="pname">Nuovo personaggio</div></div>
+<div class="grid">
+<div class="card field"><label>Nome</label><input id="name" maxlength="16" placeholder="es. Sofia"></div>
+<div class="card field"><label>Ruolo</label><select id="role"><option>Bambina</option><option>Bambino</option><option>Ragazza</option><option>Ragazzo</option><option>Mamma</option><option>Papà</option><option>Nonna</option><option>Nonno</option></select></div>
+<div class="card field"><label>Capelli</label><select id="hair"><option>👩🏻</option><option>👩🏼</option><option>👩🏽</option><option>👩🏾</option><option>👩🏿</option><option>🧑‍🦱</option><option>🧑‍🦰</option><option>🧑‍🦳</option><option>👱🏻</option></select></div>
+<div class="card field"><label>Occhi</label><select id="eyes"><option>💙</option><option>💚</option><option>🤎</option><option>🩵</option><option>🖤</option><option>💜</option></select></div>
+<div class="card field"><label>Vestiti</label><select id="clothes"><option>👕</option><option>👗</option><option>🧥</option><option>👚</option><option>👔</option><option>🩷</option><option>💙</option><option>🥋</option></select></div>
+<div class="card field"><label>Personalità</label><select id="personality"><option>😊 Solare</option><option>🎨 Creativa</option><option>📚 Curiosa</option><option>🏃 Sportiva</option><option>💗 Coccolona</option><option>😎 Avventurosa</option><option>🧠 Geniale</option></select></div>
+</div>
+<button class="btn" id="addPerson">💖 Aggiungi alla famiglia</button>
+<button class="btn alt" id="clearPerson">↩️ Nuovo personaggio</button>
+<div id="people" class="people"></div>
+</section>
+
+<section id="house" class="panel hidden">
+<h2>🏠 Costruisci e arreda</h2>
+<div class="coins">🪙 Monete: <b id="houseCoins">120</b></div>
+<div class="house"><div id="rooms" class="rooms"></div></div>
+<h3>🛒 Negozio di arredamento</h3>
+<div id="shop" class="shop"></div>
+<button class="btn red" id="resetHouse">🔄 Ricomincia l'arredamento</button>
+</section>
+
+<section id="life" class="panel hidden">
+<h2>🌳 Una giornata in famiglia</h2>
+<div class="actions">
+<button class="card action" data-act="breakfast"><span class="emoji">🥞</span><b>Colazione</b><p>Preparate una colazione speciale.</p></button>
+<button class="card action" data-act="school"><span class="emoji">🎒</span><b>Scuola</b><p>Imparare e fare nuove amicizie.</p></button>
+<button class="card action" data-act="park"><span class="emoji">🌳</span><b>Parco</b><p>Sport, giochi e passeggiate.</p></button>
+<button class="card action" data-act="shopping"><span class="emoji">🛍️</span><b>Spesa</b><p>Fate acquisti per la casa.</p></button>
+<button class="card action" data-act="cooking"><span class="emoji">🍝</span><b>Cucinare</b><p>Preparate la cena insieme.</p></button>
+<button class="card action" data-act="movie"><span class="emoji">🍿</span><b>Serata film</b><p>Tutti sul divano.</p></button>
+</div>
+<div id="lifeMsg" class="task">Crea almeno un familiare per iniziare.</div>
+</section>
+
+<section id="story" class="panel hidden">
+<h2>📖 La storia della famiglia</h2>
+<div class="story"><h3 id="chapterTitle">Capitolo 1 — Una nuova casa</h3><p id="storyText">La famiglia sta per iniziare una nuova avventura...</p><div id="choices"></div></div>
+</section>
+
+<section id="missions" class="panel hidden">
+<h2>⭐ Missioni</h2>
+<div id="missionsList"></div>
+<div class="task"><b>Livello famiglia: <span id="level">1</span></b><div class="bar"><i id="levelBar" style="width:0%"></i></div></div>
+<button class="btn alt" id="resetGame">⚠️ Ricomincia tutto</button>
+</section>
+</main>
+<script>
+const KEY="carla-family-v2";
+const defaultState={members:[],coins:120,points:0,love:50,activities:0,story:1,rooms:[
+{name:"🛋️ Salotto",items:["🛋️","📺"]},{name:"🍳 Cucina",items:["🍳","🪑"]},{name:"🛏️ Camera",items:["🛏️","🧸"]},{name:"🌳 Giardino",items:["🌷","🌳"]}],selected:0,inventory:["🔑 Chiavi di casa"],completed:{}};
+let S=structuredClone(defaultState);
+try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved)S={...S,...saved}}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+function personPreview(){ $("avatar").textContent=$("hair").value;$("face").textContent=$("eyes").value;$("clothesPreview").textContent=$("clothes").value;$("previewName").textContent=$("name").value.trim()||"Nuovo personaggio" }
+["name","hair","eyes","clothes"].forEach(id=>$(id).addEventListener("input",personPreview));
+
+function renderPeople(){
+$("people").innerHTML=S.members.length?S.members.map((m,i)=>`<article class="member"><div class="big">${m.hair}</div><div>${m.eyes} ${m.clothes}</div><b>${m.name}</b><div class="hint">${m.role} · ${m.personality}</div><button data-del="${i}" aria-label="Elimina ${m.name}">🗑️</button></article>`).join(""):"<p class='hint'>Ancora nessuno: crea il primo membro della famiglia!</p>";
+document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{S.members.splice(+b.dataset.del,1);save();render()})
+}
+$("addPerson").onclick=()=>{
+S.members.push({name:$("name").value.trim()||"Personaggio",role:$("role").value,hair:$("hair").value,eyes:$("eyes").value,clothes:$("clothes").value,personality:$("personality").value});
+S.points+=5;S.love=Math.min(100,S.love+3);save();$("clearPerson").click();render()
+};
+$("clearPerson").onclick=()=>{$("name").value="";personPreview()};
+
+const furniture=[["🛋️","Divano",14],["🪴","Pianta",8],["🎮","Console",22],["📚","Libreria",18],["🛏️","Letto",25],["🧸","Orsetto",7],["🍽️","Tavolo",16],["🖼️","Quadro",8],["🎹","Pianoforte",35],["🏀","Canestro",18],["🌷","Fiori",6],["⛲","Fontana",28],["🧑‍🍳","Forno",20],["🛁","Vasca",26],["🖥️","Computer",24],["🐠","Acquario",30]];
+function renderHouse(){
+$("houseCoins").textContent=S.coins;
+$("rooms").innerHTML=S.rooms.map((r,i)=>`<article class="room ${i===S.selected?"sel":""}" data-room="${i}"><b>${r.name}</b><div class="furn">${r.items.map(x=>`<span>${x}</span>`).join("")}</div></article>`).join("");
+document.querySelectorAll("[data-room]").forEach(x=>x.onclick=()=>{S.selected=+x.dataset.room;renderHouse()});
+$("shop").innerHTML=furniture.map((f,i)=>`<div class="item"><div class="emoji">${f[0]}</div><b>${f[1]}</b><div>🪙 ${f[2]}</div><button class="btn alt" data-buy="${i}">Compra</button></div>`).join("");
+document.querySelectorAll("[data-buy]").forEach(b=>b.onclick=()=>buy(+b.dataset.buy))
+}
+function buy(i){const f=furniture[i];if(S.coins<f[2]){alert("Servono più monete 💰");return}S.coins-=f[2];S.rooms[S.selected].items.push(f[0]);S.points+=3;S.inventory.push(f[0]);save();render()}
+const activityText={breakfast:"🥞 La colazione è stata un successo! Tutti hanno iniziato bene la giornata.",school:"🎒 Giornata di scuola: nuove cose imparate e una piccola sorpresa!",park:"🌳 Al parco avete giocato, corso e riso tantissimo.",shopping:"🛍️ Avete fatto la spesa e trovato qualcosa di perfetto per la casa.",cooking:"🍝 La cena è pronta! Una ricetta di famiglia è entrata nel vostro libro.",movie:"🍿 Coperta, popcorn e film: serata perfetta!"};
+document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{if(!S.members.length){$("lifeMsg").textContent="Prima crea almeno un familiare 👨‍👩‍👧";return}S.activities++;S.coins+=12;S.points+=6;S.love=Math.min(100,S.love+5);$("lifeMsg").textContent=activityText[b.dataset.act];save();render()});
+
+const chapters=[
+["Capitolo 1 — Una nuova casa","La famiglia arriva davanti alla nuova casa. Prima di entrare bisogna decidere come iniziare la loro nuova vita.","🏠 Sistemare la casa","🌳 Esplorare il giardino"],
+["Capitolo 2 — Il primo giorno","È mattina. Tutti hanno un'idea diversa per la giornata.","🎒 Andare a scuola","🥞 Preparare una colazione gigante"],
+["Capitolo 3 — Una sorpresa","Sul vialetto compare una scatola misteriosa.","🎁 Aprire la scatola","🔍 Cercare un indizio"],
+["Capitolo 4 — Festa in famiglia","La casa è pronta per una piccola festa.","🎉 Invitare gli amici","🍰 Fare una torta"],
+["Capitolo 5 — Il sogno","La famiglia ha costruito qualcosa di speciale insieme.","⭐ Continuare l'avventura","🏡 Rendere la casa ancora più bella"]
+];
+function renderStory(){let idx=Math.min(S.story-1,chapters.length-1),c=chapters[idx];$("chapterTitle").textContent=c[0];$("storyText").textContent=c[1];$("choices").innerHTML=`<button class="choice" id="choice1">${c[2]}</button><button class="choice" id="choice2">${c[3]}</button>`;document.querySelectorAll(".choice").forEach(x=>x.onclick=()=>{S.points+=10;S.love=Math.min(100,S.love+4);S.coins+=8;if(S.story<chapters.length)S.story++;save();render()})}
+
+const missionDefs=[
+["family3","👨‍👩‍👧 Crea 3 familiari",()=>S.members.length>=3],
+["furn5","🛋️ Compra 5 arredamenti",()=>S.rooms.reduce((n,r)=>n+r.items.length,0)>=7],
+["acts3","🌳 Fai 3 attività",()=>S.activities>=3],
+["points100","⭐ Raggiungi 100 punti",()=>S.points>=100],
+["house4","🏠 Arreda tutte le stanze",()=>S.rooms.every(r=>r.items.length>=3)],
+["coins150","🪙 Arriva a 150 monete",()=>S.coins>=150],
+["story3","📖 Avanza fino al capitolo 3",()=>S.story>=3],
+["love80","❤️ Porta l'affetto a 80",()=>S.love>=80]
+];
+function renderMissions(){let done=0;$("missionsList").innerHTML=missionDefs.map(([id,t,fn])=>{let ok=fn();if(ok)done++;return `<div class="task mission ${ok?"done":""}">${t} ${ok?"✅":"🔒"}</div>`}).join("");let lvl=Math.floor(S.points/50)+1;$("level").textContent=lvl;$("levelBar").style.width=Math.min(100,S.points%50*2)+"%";return done}
+
+function renderHome(){$("sFamily").textContent=S.members.length;$("sCoins").textContent=S.coins;$("sPoints").textContent=S.points;$("sLove").textContent=S.love;$("welcome").textContent=S.members.length?`La famiglia ${S.members.map(m=>m.name).join(", ")} sta costruendo la propria storia!`:"Costruisci la tua famiglia e crea una casa speciale.";$("inventory").innerHTML=S.inventory.map(x=>`<span class="pill">${x}</span>`).join("")}
+function render(){personPreview();renderPeople();renderHouse();renderStory();renderMissions();renderHome()}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.classList.add("hidden"));$(b.dataset.page).classList.remove("hidden")});
+$("resetHouse").onclick=()=>{if(confirm("Vuoi ricominciare solo l'arredamento?")){S.coins=120;S.rooms=structuredClone(defaultState.rooms);S.inventory=["🔑 Chiavi di casa"];save();render()}};
+$("resetGame").onclick=()=>{if(confirm("Vuoi cancellare tutta la famiglia, la casa e i progressi?")){localStorage.removeItem(KEY);S=structuredClone(defaultState);render()}};
+render();
+if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script></body></html>
